@@ -6,6 +6,14 @@ document.getElementById('courtTitle').textContent = court.toUpperCase() + ' Disp
 
 onValue(ref(db,'courts/' + court), (snapshot) => {
  const data = snapshot.val() || {};
- document.getElementById('scoreboard').textContent =
-   (data.homeScore || 0) + ' - ' + (data.awayScore || 0);
-});
+<h2 id="homeTeamName">
+    HOME
+</h2>
+
+<div id="scoreboard">
+    0 - 0
+</div>
+
+<h2 id="awayTeamName">
+    AWAY
+</h2>
