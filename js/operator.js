@@ -37,3 +37,23 @@ onValue(gameRef, (snapshot) => {
  }
 
 });
+ /*****************************************************************
+ * SAVE TEAM NAMES
+ *****************************************************************/
+
+document
+.getElementById('saveTeamNames')
+.addEventListener('click', async () => {
+
+    const homeName =
+        document.getElementById('homeNameInput').value;
+
+    const awayName =
+        document.getElementById('awayNameInput').value;
+
+    await update(gameRef, {
+        homeName,
+        awayName
+    });
+
+});
