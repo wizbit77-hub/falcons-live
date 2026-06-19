@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+ name="viewport"
+ content="width=device-width, initial-scale=1.0">
+
+<title>Falcons Live - One Man Operator</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="page">
+<h1 id="courtTitle">
+    ONE MAN OPERATOR
+</h1>
+
+<div class="section">
+
+    <h2>
+        HOME TEAM
+    </h2>
+
+    <div
+        id="homeScore"
+        class="score">
+        0
+    </div>
+
+    <div class="buttonGrid">
+
+        <button
+            id="homePlus3">
+            +3
+        </button>
+
+        <button
+            id="homePlus2">
+            +2
+        </button>
+
+        <button
+            id="homePlus1">
+            +1
+        </button>
+
+        <button
+            id="homeMinus1">
+            -1
+        </button>
+
+    </div>
+
+</div>
+
+<div class="section">
+
+    <h2>
+        AWAY TEAM
+    </h2>
+
+    <div
+        id="awayScore"
+        class="score">
+        0
+    </div>
+
+    <div class="buttonGrid">
+
+        <button
+            id="awayPlus3">
+            +3
+        </button>
+
+        <button
+            id="awayPlus2">
+            +2
+        </button>
+
+        <button
+            id="awayPlus1">
+            +1
+        </button>
+
+        <button
+            id="awayMinus1">
+            -1
+        </button>
+
+    </div>
+
+</div>
+
+<div class="section">
+
+    <h2>
+        FOULS
+    </h2>
+
+    <div>
+
+        Home:
+        <span id="homeFouls">
+            0
+        </span>
+
+    </div>
+
+    <div>
+
+        Away:
+        <span id="awayFouls">
+            0
+        </span>
+
+    </div>
+
+</div>
+
+<div class="section">
+
+    <h2>
+        TIMEOUTS
+    </h2>
+
+    <div>
+
+        Home:
+        <span id="homeTimeouts">
+            0
+        </span>
+
+    </div>
+
+    <div>
+
+        Away:
+        <span id="awayTimeouts">
+            0
+        </span>
+
+    </div>
+
+</div>
+
+<div class="section">
+
+    <h2>
+        POSSESSION
+    </h2>
+
+    <button
+        id="homePossession">
+
+        HOME ◄
+
+    </button>
+
+    <button
+        id="awayPossession">
+
+        AWAY ►
+
+    </button>
+
+</div>
+
+<div class="section">
+
+    <details>
+
+        <summary>
+            MATCH SETUP
+        </summary>
+
+        <br>
+
+        <input
+            id="homeNameInput"
+            placeholder="Home Team Name">
+
+        <br><br>
+
+        <input
+            id="awayNameInput"
+            placeholder="Away Team Name">
+
+        <br><br>
+
+        <button
+            id="saveTeams">
+
+            Save Team Names
+
+        </button>
+
+    </details>
+
+</div>
+</div>
+
+<script
+    type="module"
+    src="js/oneman.js">
+</script>
+
+</body>
+
+</html>
