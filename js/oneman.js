@@ -2,7 +2,8 @@ import {
 initialiseCourt,
 watchCourt,
 addScore,
-setPossession
+setPossession,
+saveTeamNames
 } from './game.js';
 
 const court =
@@ -41,6 +42,13 @@ document.getElementById('awayTimeouts')
     .textContent =
     data.game.awayTimeouts;
 
+    document.getElementById('homeNameInput')
+    .value =
+    data.teams.homeName;
+
+document.getElementById('awayNameInput')
+    .value =
+    data.teams.awayName;
 });
 
 /*****************************************************************
@@ -112,3 +120,26 @@ document.getElementById('awayPossession')
 'click',
 () => setPossession(court, 'away')
 );
+document.getElementById('saveTeams')
+    .addEventListener(
+        'click',
+        async () => {
+
+            const homeName =
+                document.getElementById(
+                    'homeNameInput'
+                ).value;
+
+            const awayName =
+                document.getElementById(
+                    'awayNameInput'
+                ).value;
+
+            await saveTeamNames(
+                court,
+                homeName,
+                awayName
+            );
+
+        }
+    );
