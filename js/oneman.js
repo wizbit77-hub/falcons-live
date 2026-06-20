@@ -42,14 +42,17 @@ document.getElementById('awayTimeouts')
     .textContent =
     data.game.awayTimeouts;
 
-    document.getElementById('homeNameInput')
-    .value =
-    data.teams.homeName;
-
-document.getElementById('awayNameInput')
-    .value =
-    data.teams.awayName;
+    console.log(
+    'homeTeamTitle:',
     document.getElementById('homeTeamTitle')
+);
+
+console.log(
+    'awayTeamTitle:',
+    document.getElementById('awayTeamTitle')
+);
+
+document.getElementById('homeTeamTitle')
     .textContent =
     data.teams.homeName;
 
