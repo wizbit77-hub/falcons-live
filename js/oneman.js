@@ -2,9 +2,12 @@ import {
 initialiseCourt,
 watchCourt,
 addScore,
+addFoul,
+addTimeout,
 setPossession,
 saveTeamNames
 } from './game.js';
+console.log("addTimeout =", addTimeout);
 
 const court =
 new URLSearchParams(window.location.search)
@@ -129,6 +132,51 @@ document.getElementById('awayPossession')
 .addEventListener(
 'click',
 () => setPossession(court, 'away')
+);
+document.getElementById('homeFoulPlus')
+.addEventListener(
+    'click',
+    () => addFoul(court, 'home', 1)
+);
+document.getElementById('homeTimeoutPlus')
+.addEventListener(
+    'click',
+    () => addTimeout(court, 'home', 1)
+);
+
+document.getElementById('homeTimeoutMinus')
+.addEventListener(
+    'click',
+    () => addTimeout(court, 'home', -1)
+);
+
+document.getElementById('awayTimeoutPlus')
+.addEventListener(
+    'click',
+    () => addTimeout(court, 'away', 1)
+);
+
+document.getElementById('awayTimeoutMinus')
+.addEventListener(
+    'click',
+    () => addTimeout(court, 'away', -1)
+);
+document.getElementById('homeFoulMinus')
+.addEventListener(
+    'click',
+    () => addFoul(court, 'home', -1)
+);
+
+document.getElementById('awayFoulPlus')
+.addEventListener(
+    'click',
+    () => addFoul(court, 'away', 1)
+);
+
+document.getElementById('awayFoulMinus')
+.addEventListener(
+    'click',
+    () => addFoul(court, 'away', -1)
 );
 document.getElementById('saveTeams')
     .addEventListener(
