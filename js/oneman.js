@@ -49,6 +49,13 @@ document.getElementById('awayTimeouts')
 document.getElementById('awayNameInput')
     .value =
     data.teams.awayName;
+    document.getElementById('homeTeamTitle')
+    .textContent =
+    data.teams.homeName;
+
+document.getElementById('awayTeamTitle')
+    .textContent =
+    data.teams.awayName;
 });
 
 /*****************************************************************
