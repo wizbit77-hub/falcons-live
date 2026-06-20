@@ -4,3 +4,4 @@ body{font-family:Arial,sans-serif;text-align:center;padding:30px}
 #scoreboard{font-size:80px;font-weight:bold;margin-top:40px}
 .possessionButton {font-size: 4rem;min-width: 150px;min-height: 100px;}
 #clockToggle {font-size: 2rem;min-width: 250px;min-height: 80px;}
+#periodDisplay {font-size: 1.5rem;font-weight: bold;margin-bottom: 10px;}

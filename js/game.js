@@ -28,6 +28,7 @@ game: {
     clockRemaining: 600,
     clockStartedAt: 0
 
+
 },
 
 teams: {
@@ -302,3 +303,4 @@ await update(
 );
 
 }
+console.log("game.js loaded");

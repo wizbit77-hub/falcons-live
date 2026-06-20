@@ -78,6 +78,11 @@ document.getElementById('awayFoulsLabel')
     .textContent =
     data.teams.awayName;
 
+    document.getElementById('periodDisplay')
+    .textContent =
+    'PERIOD ' +
+    data.game.period;
+
     const minutes =
     Math.floor(
         data.game.clockRemaining / 60
@@ -139,6 +144,7 @@ document.getElementById('clockMinusMinute')
         -60
     )
 );
+
 document.getElementById('togglePossession')
 .addEventListener(
     'click',
