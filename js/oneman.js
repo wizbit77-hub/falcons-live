@@ -5,9 +5,10 @@ addScore,
 addFoul,
 addTimeout,
 setPossession,
-saveTeamNames
+saveTeamNames,
+setClockRunning,
+adjustClock
 } from './game.js';
-console.log("addTimeout =", addTimeout);
 
 const court =
 new URLSearchParams(window.location.search)
@@ -15,7 +16,7 @@ new URLSearchParams(window.location.search)
 
 document.getElementById('courtTitle')
 .textContent =
-court.toUpperCase() + ' ONE MAN OPERATOR';
+court.toUpperCase() + ' ONE OPERATOR';
 
 await initialiseCourt(court);
 
@@ -62,8 +63,101 @@ document.getElementById('homeTeamTitle')
 document.getElementById('awayTeamTitle')
     .textContent =
     data.teams.awayName;
-});
+    document.getElementById('homeFoulsLabel')
+    .textContent =
+    data.teams.homeName;
+    document.getElementById('homeTimeoutsLabel')
+    .textContent =
+    data.teams.homeName;
 
+document.getElementById('awayTimeoutsLabel')
+    .textContent =
+    data.teams.awayName;
+
+document.getElementById('awayFoulsLabel')
+    .textContent =
+    data.teams.awayName;
+
+    const minutes =
+    Math.floor(
+        data.game.clockRemaining / 60
+    );
+
+const seconds =
+    data.game.clockRemaining % 60;
+
+document.getElementById('gameClock')
+    .textContent =
+    minutes +
+    ':' +
+    String(seconds)
+        .padStart(2, '0');
+
+    document.getElementById('togglePossession')
+    .textContent =
+    data.game.possession === 'home'
+        ? '◄'
+        : '►';
+        document.getElementById('clockToggle')
+    .textContent =
+    data.game.clockRunning
+        ? 'STOP'
+        : 'START';
+});
+document.getElementById('clockToggle')
+.addEventListener(
+    'click',
+    async () => {
+
+        const button =
+            document.getElementById(
+                'clockToggle'
+            );
+
+        await setClockRunning(
+            court,
+            button.textContent === 'START'
+        );
+
+    }
+);
+
+document.getElementById('clockPlusMinute')
+.addEventListener(
+    'click',
+    () => adjustClock(
+        court,
+        60
+    )
+);
+
+document.getElementById('clockMinusMinute')
+.addEventListener(
+    'click',
+    () => adjustClock(
+        court,
+        -60
+    )
+);
+document.getElementById('togglePossession')
+.addEventListener(
+    'click',
+    async () => {
+
+        const currentArrow =
+            document.getElementById(
+                'togglePossession'
+            ).textContent;
+
+        await setPossession(
+            court,
+            currentArrow === '◄'
+                ? 'away'
+                : 'home'
+        );
+
+    }
+);
 /*****************************************************************
 
 * SCORE BUTTONS
@@ -122,17 +216,6 @@ document.getElementById('awayMinus1')
 * POSSESSION
   *****************************************************************/
 
-document.getElementById('homePossession')
-.addEventListener(
-'click',
-() => setPossession(court, 'home')
-);
-
-document.getElementById('awayPossession')
-.addEventListener(
-'click',
-() => setPossession(court, 'away')
-);
 document.getElementById('homeFoulPlus')
 .addEventListener(
     'click',

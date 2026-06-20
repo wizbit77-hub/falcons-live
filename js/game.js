@@ -235,7 +235,44 @@ await update(
     courtRef(court),
     updates
 );
+}
+export async function setClockRunning(
+court,
+running
+) {
 
+await update(
+    courtRef(court),
+    {
+        "game/clockRunning": running
+    }
+);
+
+}
+
+export async function adjustClock(
+court,
+seconds
+) {
+
+const snapshot =
+    await get(courtRef(court));
+
+const data =
+    snapshot.val() ||
+    defaultGameState;
+
+await update(
+    courtRef(court),
+    {
+        "game/clockRemaining":
+            Math.max(
+                0,
+                (data.game.clockRemaining || 0)
+                + seconds
+            )
+    }
+);
 }
 
 export async function setPossession(

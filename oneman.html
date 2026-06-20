@@ -10,7 +10,7 @@
  name="viewport"
  content="width=device-width, initial-scale=1.0">
 
-<title>Falcons Live - One Man Operator</title>
+<title>Falcons Live - One Operator</title>
 
 <link
     rel="stylesheet"
@@ -27,7 +27,11 @@
 
 <div class="section">
 
-   <h2 id="homeTeamTitle">
+  <div class="teamSide">
+    HOME
+</div>
+
+<h2 id="homeTeamTitle">
     HOME TEAM
 </h2>
 
@@ -65,7 +69,11 @@
 
 <div class="section">
 
-   <h2 id="awayTeamTitle">
+  <div class="teamSide">
+    AWAY
+</div>
+
+<h2 id="awayTeamTitle">
     AWAY TEAM
 </h2>
 
@@ -109,8 +117,10 @@
 
     <div>
 
-        Home:
-        <span id="homeFouls">
+        <span id="homeFoulsLabel">
+    Home
+</span>:
+<span id="homeFouls">
             0
         </span>
 
@@ -128,8 +138,10 @@
 
     <div>
 
-        Away:
-        <span id="awayFouls">
+        <span id="awayFoulsLabel">
+    Away
+</span>:
+<span id="awayFouls">
             0
         </span>
 
@@ -151,8 +163,10 @@
 
     <div>
 
-        Home:
-        <span id="homeTimeouts">
+        <span id="homeTimeoutsLabel">
+    Home
+</span>:
+<span id="homeTimeouts">
             0
         </span>
 
@@ -170,8 +184,10 @@
 
     <div>
 
-        Away:
-        <span id="awayTimeouts">
+        <span id="awayTimeoutsLabel">
+    Away
+</span>:
+<span id="awayTimeouts">
             0
         </span>
 
@@ -190,20 +206,55 @@
 <div class="section">
 
     <h2>
-        POSSESSION
+        GAME CLOCK
     </h2>
 
-    <button
-        id="homePossession">
+    <div
+        id="gameClock"
+        class="score">
 
-        HOME ◄
+        10:00
+
+    </div>
+
+    <button
+        id="clockToggle">
+
+        START
+
+    </button>
+
+    <br><br>
+
+    <button
+        id="clockMinusMinute">
+
+        -1 MIN
 
     </button>
 
     <button
-        id="awayPossession">
+        id="clockPlusMinute">
 
-        AWAY ►
+        +1 MIN
+
+    </button>
+
+</div>
+
+</div>
+
+<div class="section">
+
+    <h2>
+        POSSESSION
+    </h2>
+
+    <button
+        id="togglePossession"
+        class="possessionButton">
+
+        ◄
 
     </button>
 
