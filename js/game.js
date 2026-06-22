@@ -24,10 +24,11 @@ game: {
 
     period: 1,
 
+    state: "period",
+
     clockRunning: false,
     clockRemaining: 600,
     clockStartedAt: 0
-
 
 },
 
@@ -323,6 +324,129 @@ await update(
     {
         "game/possession": team
     }
+);
+
+}
+
+export async function setGameState(
+court,
+state
+) {
+
+await update(
+    courtRef(court),
+    {
+        "game/state": state
+    }
+);
+
+}
+
+export async function startBreak(
+court
+) {
+
+await update(
+    courtRef(court),
+    {
+        "game/state": "break",
+        "game/clockRemaining": 30,
+        "game/clockRunning": false
+    }
+);
+
+}
+
+export async function advanceGameState(
+court
+) {
+
+const snapshot =
+    await get(courtRef(court));
+
+const data =
+    snapshot.val() ||
+    defaultGameState;
+
+const period =
+    data.game.period || 1;
+
+const state =
+    data.game.state || "period";
+
+const updates = {};
+
+if (state === "period") {
+
+    if (period === 1) {
+
+        updates["game/state"] =
+            "break";
+
+        updates["game/clockRemaining"] =
+            30;
+
+    }
+    else if (period === 2) {
+
+        updates["game/state"] =
+            "halftime";
+
+        updates["game/clockRemaining"] =
+            60;
+
+    }
+    else if (period === 3) {
+
+        updates["game/state"] =
+            "break";
+
+        updates["game/clockRemaining"] =
+            30;
+
+    }
+    else if (period === 4) {
+
+        updates["game/state"] =
+            "summary";
+
+        updates["game/clockRemaining"] =
+            0;
+
+    }
+
+}
+else if (state === "break") {
+
+    updates["game/state"] =
+        "period";
+
+    updates["game/period"] =
+        period + 1;
+
+    updates["game/clockRemaining"] =
+        600;
+
+}
+else if (state === "halftime") {
+
+    updates["game/state"] =
+        "period";
+
+    updates["game/period"] =
+        3;
+
+    updates["game/clockRemaining"] =
+        600;
+
+}
+
+updates["game/clockRunning"] =
+    false;
+
+await update(
+    courtRef(court),
+    updates
 );
 
 }

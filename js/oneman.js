@@ -5,6 +5,9 @@ addScore,
 addFoul,
 addTimeout,
 setPossession,
+setGameState,
+advanceGameState,
+startBreak,
 saveTeamNames,
 setClockRunning,
 adjustClock,
@@ -85,10 +88,25 @@ document.getElementById('awayTimeoutsLabel')
 .textContent =
 data.teams.awayName;
 
-document.getElementById('periodDisplay')
-.textContent =
-'PERIOD ' +
-data.game.period;
+if (
+    data.game.state === 'break'
+) {
+
+    document.getElementById(
+        'periodDisplay'
+    ).textContent =
+        'BREAK';
+
+}
+else {
+
+    document.getElementById(
+        'periodDisplay'
+    ).textContent =
+        'PERIOD ' +
+        data.game.period;
+
+}
 
 let displaySeconds =
 data.game.clockRemaining;
@@ -170,6 +188,19 @@ displaySeconds =
         latestData.game.clockRemaining -
         elapsedSeconds
     );
+
+  if (
+    displaySeconds <= 0 &&
+    latestData.game.clockRunning
+) {
+
+    startBreak(
+        court
+    );
+
+    return;
+
+}
 
 const displayWholeSeconds =
     Math.ceil(displaySeconds);
