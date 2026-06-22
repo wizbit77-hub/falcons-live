@@ -20,6 +20,8 @@ const court =
 new URLSearchParams(window.location.search)
 .get('court') || 'court1';
 
+let latestData = null;
+
 document.getElementById('courtTitle')
 .textContent =
 court.toUpperCase() + ' ONE OPERATOR';
@@ -32,6 +34,8 @@ await initialiseCourt(court);
   *****************************************************************/
 
 watchCourt(court, (data) => {
+
+    latestData = data;
 
 document.getElementById('homeScore')
 .textContent =
@@ -86,13 +90,35 @@ document.getElementById('periodDisplay')
 'PERIOD ' +
 data.game.period;
 
+let displaySeconds =
+data.game.clockRemaining;
+
+if (data.game.clockRunning) {
+
+const elapsedSeconds =
+    Math.floor(
+        (
+            Date.now() -
+            data.game.clockStartedAt
+        ) / 1000
+    );
+
+displaySeconds =
+    Math.max(
+        0,
+        data.game.clockRemaining -
+        elapsedSeconds
+    );
+
+}
+
 const minutes =
 Math.floor(
-data.game.clockRemaining / 60
+displaySeconds / 60
 );
 
 const seconds =
-data.game.clockRemaining % 60;
+displaySeconds % 60;
 
 document.getElementById('gameClock')
 .textContent =
@@ -114,6 +140,56 @@ data.game.clockRunning
 : 'START';
 
 });
+
+/*****************************************************************
+* LIVE CLOCK REDRAW
+*****************************************************************/
+
+setInterval(() => {
+
+if (!latestData) {
+    return;
+}
+
+if (!latestData.game.clockRunning) {
+    return;
+}
+
+let displaySeconds =
+    latestData.game.clockRemaining;
+
+const elapsedSeconds =
+    (
+        Date.now() -
+        latestData.game.clockStartedAt
+    ) / 1000;
+
+displaySeconds =
+    Math.max(
+        0,
+        latestData.game.clockRemaining -
+        elapsedSeconds
+    );
+
+const displayWholeSeconds =
+    Math.ceil(displaySeconds);
+
+const minutes =
+Math.floor(
+displayWholeSeconds / 60
+);
+
+const seconds =
+displayWholeSeconds % 60;
+
+document.getElementById('gameClock')
+.textContent =
+    minutes +
+    ':' +
+    String(seconds)
+        .padStart(2, '0');
+
+}, 100);
 
 /*****************************************************************
 

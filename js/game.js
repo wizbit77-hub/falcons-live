@@ -242,11 +242,49 @@ court,
 running
 ) {
 
+const snapshot =
+    await get(courtRef(court));
+
+const data =
+    snapshot.val() ||
+    defaultGameState;
+
+const updates = {};
+
+if (running) {
+
+    updates["game/clockRunning"] =
+        true;
+
+    updates["game/clockStartedAt"] =
+        Date.now();
+
+}
+else {
+
+    const elapsedSeconds =
+        Math.floor(
+            (
+                Date.now() -
+                (data.game.clockStartedAt || 0)
+            ) / 1000
+        );
+
+    updates["game/clockRunning"] =
+        false;
+
+    updates["game/clockRemaining"] =
+        Math.max(
+            0,
+            (data.game.clockRemaining || 0)
+            - elapsedSeconds
+        );
+
+}
+
 await update(
     courtRef(court),
-    {
-        "game/clockRunning": running
-    }
+    updates
 );
 
 }
