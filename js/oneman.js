@@ -7,8 +7,14 @@ addTimeout,
 setPossession,
 saveTeamNames,
 setClockRunning,
-adjustClock
+adjustClock,
+changePeriod
 } from './game.js';
+
+/*****************************************************************
+
+* COURT SETUP
+  *****************************************************************/
 
 const court =
 new URLSearchParams(window.location.search)
@@ -20,150 +26,95 @@ court.toUpperCase() + ' ONE OPERATOR';
 
 await initialiseCourt(court);
 
+/*****************************************************************
+
+* LIVE DISPLAY UPDATES
+  *****************************************************************/
+
 watchCourt(court, (data) => {
 
 document.getElementById('homeScore')
-    .textContent =
-    data.game.homeScore;
+.textContent =
+data.game.homeScore;
 
 document.getElementById('awayScore')
-    .textContent =
-    data.game.awayScore;
+.textContent =
+data.game.awayScore;
 
 document.getElementById('homeFouls')
-    .textContent =
-    data.game.homeFouls;
+.textContent =
+data.game.homeFouls;
 
 document.getElementById('awayFouls')
-    .textContent =
-    data.game.awayFouls;
+.textContent =
+data.game.awayFouls;
 
 document.getElementById('homeTimeouts')
-    .textContent =
-    data.game.homeTimeouts;
+.textContent =
+data.game.homeTimeouts;
 
 document.getElementById('awayTimeouts')
-    .textContent =
-    data.game.awayTimeouts;
-
-    console.log(
-    'homeTeamTitle:',
-    document.getElementById('homeTeamTitle')
-);
-
-console.log(
-    'awayTeamTitle:',
-    document.getElementById('awayTeamTitle')
-);
+.textContent =
+data.game.awayTimeouts;
 
 document.getElementById('homeTeamTitle')
-    .textContent =
-    data.teams.homeName;
+.textContent =
+data.teams.homeName;
 
 document.getElementById('awayTeamTitle')
-    .textContent =
-    data.teams.awayName;
-    document.getElementById('homeFoulsLabel')
-    .textContent =
-    data.teams.homeName;
-    document.getElementById('homeTimeoutsLabel')
-    .textContent =
-    data.teams.homeName;
+.textContent =
+data.teams.awayName;
 
-document.getElementById('awayTimeoutsLabel')
-    .textContent =
-    data.teams.awayName;
+document.getElementById('homeFoulsLabel')
+.textContent =
+data.teams.homeName;
 
 document.getElementById('awayFoulsLabel')
-    .textContent =
-    data.teams.awayName;
+.textContent =
+data.teams.awayName;
 
-    document.getElementById('periodDisplay')
-    .textContent =
-    'PERIOD ' +
-    data.game.period;
+document.getElementById('homeTimeoutsLabel')
+.textContent =
+data.teams.homeName;
 
-    const minutes =
-    Math.floor(
-        data.game.clockRemaining / 60
-    );
+document.getElementById('awayTimeoutsLabel')
+.textContent =
+data.teams.awayName;
+
+document.getElementById('periodDisplay')
+.textContent =
+'PERIOD ' +
+data.game.period;
+
+const minutes =
+Math.floor(
+data.game.clockRemaining / 60
+);
 
 const seconds =
-    data.game.clockRemaining % 60;
+data.game.clockRemaining % 60;
 
 document.getElementById('gameClock')
-    .textContent =
-    minutes +
-    ':' +
-    String(seconds)
-        .padStart(2, '0');
-
-    document.getElementById('togglePossession')
-    .textContent =
-    data.game.possession === 'home'
-        ? '◄'
-        : '►';
-        document.getElementById('clockToggle')
-    .textContent =
-    data.game.clockRunning
-        ? 'STOP'
-        : 'START';
-});
-document.getElementById('clockToggle')
-.addEventListener(
-    'click',
-    async () => {
-
-        const button =
-            document.getElementById(
-                'clockToggle'
-            );
-
-        await setClockRunning(
-            court,
-            button.textContent === 'START'
-        );
-
-    }
-);
-
-document.getElementById('clockPlusMinute')
-.addEventListener(
-    'click',
-    () => adjustClock(
-        court,
-        60
-    )
-);
-
-document.getElementById('clockMinusMinute')
-.addEventListener(
-    'click',
-    () => adjustClock(
-        court,
-        -60
-    )
-);
+.textContent =
+minutes +
+':' +
+String(seconds)
+.padStart(2, '0');
 
 document.getElementById('togglePossession')
-.addEventListener(
-    'click',
-    async () => {
+.textContent =
+data.game.possession === 'home'
+? '◄'
+: '►';
 
-        const currentArrow =
-            document.getElementById(
-                'togglePossession'
-            ).textContent;
+document.getElementById('clockToggle')
+.textContent =
+data.game.clockRunning
+? 'STOP'
+: 'START';
 
-        await setPossession(
-            court,
-            currentArrow === '◄'
-                ? 'away'
-                : 'home'
-        );
+});
 
-    }
-);
 /*****************************************************************
 
 * SCORE BUTTONS
@@ -219,74 +170,177 @@ document.getElementById('awayMinus1')
 
 /*****************************************************************
 
-* POSSESSION
+* FOUL BUTTONS
   *****************************************************************/
 
 document.getElementById('homeFoulPlus')
 .addEventListener(
-    'click',
-    () => addFoul(court, 'home', 1)
-);
-document.getElementById('homeTimeoutPlus')
-.addEventListener(
-    'click',
-    () => addTimeout(court, 'home', 1)
+'click',
+() => addFoul(court, 'home', 1)
 );
 
-document.getElementById('homeTimeoutMinus')
-.addEventListener(
-    'click',
-    () => addTimeout(court, 'home', -1)
-);
-
-document.getElementById('awayTimeoutPlus')
-.addEventListener(
-    'click',
-    () => addTimeout(court, 'away', 1)
-);
-
-document.getElementById('awayTimeoutMinus')
-.addEventListener(
-    'click',
-    () => addTimeout(court, 'away', -1)
-);
 document.getElementById('homeFoulMinus')
 .addEventListener(
-    'click',
-    () => addFoul(court, 'home', -1)
+'click',
+() => addFoul(court, 'home', -1)
 );
 
 document.getElementById('awayFoulPlus')
 .addEventListener(
-    'click',
-    () => addFoul(court, 'away', 1)
+'click',
+() => addFoul(court, 'away', 1)
 );
 
 document.getElementById('awayFoulMinus')
 .addEventListener(
-    'click',
-    () => addFoul(court, 'away', -1)
+'click',
+() => addFoul(court, 'away', -1)
 );
-document.getElementById('saveTeams')
-    .addEventListener(
-        'click',
-        async () => {
 
-            const homeName =
-                document.getElementById(
-                    'homeNameInput'
-                ).value;
+/*****************************************************************
 
-            const awayName =
-                document.getElementById(
-                    'awayNameInput'
-                ).value;
+* TIMEOUT BUTTONS
+  *****************************************************************/
 
-            await saveTeamNames(
-                court,
-                homeName,
-                awayName
-            );
+document.getElementById('homeTimeoutPlus')
+.addEventListener(
+'click',
+() => addTimeout(court, 'home', 1)
+);
 
-        }
+document.getElementById('homeTimeoutMinus')
+.addEventListener(
+'click',
+() => addTimeout(court, 'home', -1)
+);
+
+document.getElementById('awayTimeoutPlus')
+.addEventListener(
+'click',
+() => addTimeout(court, 'away', 1)
+);
+
+document.getElementById('awayTimeoutMinus')
+.addEventListener(
+'click',
+() => addTimeout(court, 'away', -1)
+);
+
+/*****************************************************************
+
+* CLOCK CONTROLS
+  *****************************************************************/
+
+document.getElementById('clockToggle')
+.addEventListener(
+'click',
+async () => {
+
+    const button =
+        document.getElementById(
+            'clockToggle'
+        );
+
+    await setClockRunning(
+        court,
+        button.textContent === 'START'
     );
+
+}
+
+);
+
+document.getElementById('clockPlusMinute')
+.addEventListener(
+'click',
+() => adjustClock(
+court,
+60
+)
+);
+
+document.getElementById('clockMinusMinute')
+.addEventListener(
+'click',
+() => adjustClock(
+court,
+-60
+)
+);
+
+/*****************************************************************
+
+* PERIOD CONTROLS
+  *****************************************************************/
+
+document.getElementById('periodUp')
+.addEventListener(
+'click',
+() => changePeriod(
+court,
+1
+)
+);
+
+document.getElementById('periodDown')
+.addEventListener(
+'click',
+() => changePeriod(
+court,
+-1
+)
+);
+
+/*****************************************************************
+
+* POSSESSION
+  *****************************************************************/
+
+document.getElementById('togglePossession')
+.addEventListener(
+'click',
+async () => {
+
+    const currentArrow =
+        document.getElementById(
+            'togglePossession'
+        ).textContent;
+
+    await setPossession(
+        court,
+        currentArrow === '◄'
+            ? 'away'
+            : 'home'
+    );
+
+}
+);
+
+/*****************************************************************
+
+* MATCH SETUP
+  *****************************************************************/
+
+document.getElementById('saveTeams')
+.addEventListener(
+'click',
+async () => {
+
+    const homeName =
+        document.getElementById(
+            'homeNameInput'
+        ).value;
+
+    const awayName =
+        document.getElementById(
+            'awayNameInput'
+        ).value;
+
+    await saveTeamNames(
+        court,
+        homeName,
+        awayName
+    );
+
+}
+);

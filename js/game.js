@@ -288,6 +288,32 @@ await update(
 );
 
 }
+
+export async function changePeriod(
+court,
+amount
+) {
+
+const snapshot =
+    await get(courtRef(court));
+
+const data =
+    snapshot.val() ||
+    defaultGameState;
+
+await update(
+    courtRef(court),
+    {
+        "game/period":
+            Math.max(
+                1,
+                (data.game.period || 1)
+                + amount
+            )
+    }
+);
+
+}
 export async function saveTeamNames(
 court,
 homeName,
