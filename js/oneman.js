@@ -72,22 +72,6 @@ document.getElementById('awayTeamTitle')
 .textContent =
 data.teams.awayName;
 
-document.getElementById('homeFoulsLabel')
-.textContent =
-data.teams.homeName;
-
-document.getElementById('awayFoulsLabel')
-.textContent =
-data.teams.awayName;
-
-document.getElementById('homeTimeoutsLabel')
-.textContent =
-data.teams.homeName;
-
-document.getElementById('awayTimeoutsLabel')
-.textContent =
-data.teams.awayName;
-
 if (
     data.game.state === 'break'
 ) {

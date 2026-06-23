@@ -21,19 +21,33 @@
 <body>
 
 <div class="page">
+
 <h1 id="courtTitle">
     ONE OPERATOR
 </h1>
 
+<div class="mainLayout">
+
+<div class="column">
+
 <div class="section">
 
-  <div class="teamSide">
-    HOME
-</div>
+    <div class="teamSide">
+        HOME
+    </div>
 
-<h2 id="homeTeamTitle">
-    HOME TEAM
-</h2>
+    <h2 id="homeTeamTitle">
+        HOME TEAM
+    </h2>
+
+<input
+    id="homeNameInput"
+    placeholder="Home Team Name">
+
+    <button
+    id="saveTeams">
+    Save
+</button>
 
     <div
         id="homeScore"
@@ -43,84 +57,22 @@
 
     <div class="buttonGrid">
 
-        <button
-            id="homePlus3">
-            +3
-        </button>
+        <button id="homePlus3">+3</button>
 
-        <button
-            id="homePlus2">
-            +2
-        </button>
+        <button id="homePlus2">+2</button>
 
-        <button
-            id="homePlus1">
-            +1
-        </button>
+        <button id="homePlus1">+1</button>
 
-        <button
-            id="homeMinus1">
-            -1
-        </button>
+        <button id="homeMinus1">-1</button>
 
     </div>
 
-</div>
-
-<div class="section">
-
-  <div class="teamSide">
-    AWAY
-</div>
-
-<h2 id="awayTeamTitle">
-    AWAY TEAM
-</h2>
-
-    <div
-        id="awayScore"
-        class="score">
-        0
-    </div>
-
-    <div class="buttonGrid">
-
-        <button
-            id="awayPlus3">
-            +3
-        </button>
-
-        <button
-            id="awayPlus2">
-            +2
-        </button>
-
-        <button
-            id="awayPlus1">
-            +1
-        </button>
-
-        <button
-            id="awayMinus1">
-            -1
-        </button>
-
-    </div>
-
-</div>
-
-<div class="section">
-
-    <h2>
-        FOULS
-    </h2>
+    <hr>
 
     <div>
 
-        <span id="homeFoulsLabel">
-    Home
-</span>:
-<span id="homeFouls">
+        Fouls:
+        <span id="homeFouls">
             0
         </span>
 
@@ -138,35 +90,8 @@
 
     <div>
 
-        <span id="awayFoulsLabel">
-    Away
-</span>:
-<span id="awayFouls">
-            0
-        </span>
-
-        <button id="awayFoulPlus">
-            +
-        </button>
-
-        <button id="awayFoulMinus">
-            -
-        </button>
-
-    </div>
-
-<div class="section">
-
-    <h2>
-        TIMEOUTS
-    </h2>
-
-    <div>
-
-        <span id="homeTimeoutsLabel">
-    Home
-</span>:
-<span id="homeTimeouts">
+        Timeouts:
+        <span id="homeTimeouts">
             0
         </span>
 
@@ -180,28 +105,13 @@
 
     </div>
 
-    <br>
-
-    <div>
-
-        <span id="awayTimeoutsLabel">
-    Away
-</span>:
-<span id="awayTimeouts">
-            0
-        </span>
-
-        <button id="awayTimeoutPlus">
-            +
-        </button>
-
-        <button id="awayTimeoutMinus">
-            -
-        </button>
-
-    </div>
+</div>
 
 </div>
+
+<!-- CLOCK COLUMN -->
+
+<div class="column">
 
 <div class="section">
 
@@ -210,28 +120,20 @@
     </h2>
 
     <div>
-     <button
-    id="periodDown">
 
-    ◄
+        <button id="periodDown">
+            ◄
+        </button>
 
-</button>
-<span
+        <span id="periodDisplay">
+            PERIOD 1
+        </span>
 
-   id="periodDisplay">
+        <button id="periodUp">
+            ►
+        </button>
 
-    PERIOD 1
-    </span>
-
-    <button
-    id="periodUp">
-
-    ►
-
-</button>
-
-</div>
-
+    </div>
 
     <div
         id="gameClock"
@@ -264,13 +166,7 @@
 
     </button>
 
-</div>
-
-<div class="section">
-
-    <h2>
-        POSSESSION
-    </h2>
+    <hr>
 
     <button
         id="togglePossession"
@@ -282,36 +178,90 @@
 
 </div>
 
+</div>
+
+<!-- AWAY COLUMN -->
+
+<div class="column">
+
 <div class="section">
 
-    <details>
+    <div class="teamSide">
+        AWAY
+    </div>
 
-        <summary>
-            MATCH SETUP
-        </summary>
+    <h2 id="awayTeamTitle">
+        AWAY TEAM
+    </h2>
 
-        <br>
+<input
+    id="awayNameInput"
+    placeholder="Away Team Name">
 
-        <input
-            id="homeNameInput"
-            placeholder="Home Team Name">
+    <button
+    id="saveTeams">
+    Save
+</button>
 
-        <br><br>
+    <div
+        id="awayScore"
+        class="score">
+        0
+    </div>
 
-        <input
-            id="awayNameInput"
-            placeholder="Away Team Name">
+    <div class="buttonGrid">
 
-        <br><br>
+        <button id="awayPlus3">+3</button>
 
-        <button
-            id="saveTeams">
+        <button id="awayPlus2">+2</button>
 
-            Save Team Names
+        <button id="awayPlus1">+1</button>
 
+        <button id="awayMinus1">-1</button>
+
+    </div>
+
+    <hr>
+
+    <div>
+
+        Fouls:
+        <span id="awayFouls">
+            0
+        </span>
+
+        <button id="awayFoulPlus">
+            +
         </button>
 
-    </details>
+        <button id="awayFoulMinus">
+            -
+        </button>
+
+    </div>
+
+    <br>
+
+    <div>
+
+        Timeouts:
+        <span id="awayTimeouts">
+            0
+        </span>
+
+        <button id="awayTimeoutPlus">
+            +
+        </button>
+
+        <button id="awayTimeoutMinus">
+            -
+        </button>
+
+    </div>
+
+</div>
+
+</div>
 
 </div>
 </div>
