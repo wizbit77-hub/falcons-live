@@ -412,20 +412,29 @@ async () => {
 * MATCH SETUP
   *****************************************************************/
 
-document.getElementById('saveTeams')
-.addEventListener(
-'click',
-async () => {
+async function saveTeamNamesFromInputs() {
 
-    const homeName =
+    let homeName =
         document.getElementById(
             'homeNameInput'
-        ).value;
+        ).value.trim();
 
-    const awayName =
+    let awayName =
         document.getElementById(
             'awayNameInput'
-        ).value;
+        ).value.trim();
+
+    if (homeName === "") {
+
+        homeName = "Dark";
+
+    }
+
+    if (awayName === "") {
+
+        awayName = "Light";
+
+    }
 
     await saveTeamNames(
         court,
@@ -434,4 +443,17 @@ async () => {
     );
 
 }
+
+document.getElementById(
+    'homeNameInput'
+).addEventListener(
+    'change',
+    saveTeamNamesFromInputs
+);
+
+document.getElementById(
+    'awayNameInput'
+).addEventListener(
+    'change',
+    saveTeamNamesFromInputs
 );
