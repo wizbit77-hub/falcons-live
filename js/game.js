@@ -421,8 +421,11 @@ else if (state === "break") {
     updates["game/state"] =
         "period";
 
-    updates["game/period"] =
-        period + 1;
+updates["game/period"] =
+    Math.min(
+        4,
+        period + 1
+    );
 
     updates["game/clockRemaining"] =
         600;

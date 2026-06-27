@@ -82,6 +82,26 @@ if (
         'BREAK';
 
 }
+else if (
+    data.game.state === 'halftime'
+) {
+
+    document.getElementById(
+        'periodDisplay'
+    ).textContent =
+        'HALFTIME';
+
+}
+else if (
+    data.game.state === 'summary'
+) {
+
+    document.getElementById(
+        'periodDisplay'
+    ).textContent =
+        'FULL TIME';
+
+}
 else {
 
     document.getElementById(
@@ -147,7 +167,7 @@ data.game.clockRunning
 * LIVE CLOCK REDRAW
 *****************************************************************/
 
-setInterval(() => {
+setInterval(async () => {
 
 if (!latestData) {
     return;
@@ -173,12 +193,17 @@ displaySeconds =
         elapsedSeconds
     );
 
-  if (
+if (
     displaySeconds <= 0 &&
     latestData.game.clockRunning
 ) {
 
-    startBreak(
+    await setClockRunning(
+        court,
+        false
+    );
+
+    await advanceGameState(
         court
     );
 

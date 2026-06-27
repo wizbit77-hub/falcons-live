@@ -1,23 +1,160 @@
-
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Display</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<h2 id="homeTeamName">
-    HOME
-</h2>
 
-<div id="scoreboard">
-    0 - 0
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>Falcons Live - Display</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="displayPage">
+
+    <div class="displayTop">
+
+        <!-- HOME -->
+
+        <div
+            class="displayTeam"
+            id="homePanel">
+
+            <div class="teamLogo">
+
+                LOGO
+
+            </div>
+
+            <div
+                id="homeTeamName"
+                class="teamName">
+
+                HOME
+
+            </div>
+
+            <div
+                id="homeScore"
+                class="displayScore">
+
+                0
+
+            </div>
+
+            <div
+                id="homeFouls"
+                class="displayStat">
+
+                Fouls: 0
+
+            </div>
+
+            <div
+                id="homeTimeouts"
+                class="displayStat">
+
+                Timeouts: 0
+
+            </div>
+
+        </div>
+
+        <!-- CENTRE -->
+
+        <div class="displayCentre">
+
+            <div
+                id="gameClock"
+                class="displayClock">
+
+                10:00
+
+            </div>
+
+            <div
+                id="periodDisplay"
+                class="displayPeriod">
+
+                PERIOD 1
+
+            </div>
+
+        </div>
+
+        <!-- AWAY -->
+
+        <div
+            class="displayTeam"
+            id="awayPanel">
+
+            <div class="teamLogo">
+
+                LOGO
+
+            </div>
+
+            <div
+                id="awayTeamName"
+                class="teamName">
+
+                AWAY
+
+            </div>
+
+            <div
+                id="awayScore"
+                class="displayScore">
+
+                0
+
+            </div>
+
+            <div
+                id="awayFouls"
+                class="displayStat">
+
+                Fouls: 0
+
+            </div>
+
+            <div
+                id="awayTimeouts"
+                class="displayStat">
+
+                Timeouts: 0
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        id="ticker"
+        class="ticker">
+
+        Sponsor Ticker
+
+    </div>
+
 </div>
 
-<h2 id="awayTeamName">
-    AWAY
-</h2>
-<script type="module" src="js/display.js"></script>
+<script
+    type="module"
+    src="js/display.js">
+</script>
+
 </body>
+
 </html>
