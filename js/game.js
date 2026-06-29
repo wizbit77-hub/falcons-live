@@ -26,6 +26,8 @@ game: {
 
     state: "period",
 
+    currentStage: 0,
+
     clockRunning: false,
     clockRemaining: 600,
     clockStartedAt: 0
@@ -53,12 +55,73 @@ settings: {
     mode: "quarters"
 
 },
+stages: [
 
-media: {
+    {
+        type: "period",
+        name: "PERIOD 1",
+        duration: 600
+    },
 
-    displayMode: "scoreboard",
+    {
+        type: "break",
+        name: "BREAK",
+        duration: 30
+    },
+
+    {
+        type: "period",
+        name: "PERIOD 2",
+        duration: 600
+    },
+
+    {
+        type: "halftime",
+        name: "HALFTIME",
+        duration: 600
+    },
+
+    {
+        type: "period",
+        name: "PERIOD 3",
+        duration: 600
+    },
+
+    {
+        type: "break",
+        name: "BREAK",
+        duration: 30
+    },
+
+    {
+        type: "period",
+        name: "PERIOD 4",
+        duration: 600
+    },
+
+    {
+        type: "summary",
+        name: "FULL TIME",
+        duration: 0
+    }
+
+],
+
+presentation: {
+
+    mode: "automatic",
+
+    currentView: "scoreboard",
+
+    override: false,
+
     youtubeUrl: "",
-    cameraUrl: ""
+
+    cameraUrl: "",
+
+    backgroundImage: "",
+
+    sponsorTicker: ""
 
 }
 
@@ -358,101 +421,209 @@ await update(
 }
 
 export async function advanceGameState(
-court
+    court
 ) {
 
-const snapshot =
-    await get(courtRef(court));
+    const snapshot =
+        await get(courtRef(court));
 
-const data =
-    snapshot.val() ||
-    defaultGameState;
+    const data =
+        snapshot.val() ||
+        defaultGameState;
 
-const period =
-    data.game.period || 1;
+    const game =
+        data.game;
 
-const state =
-    data.game.state || "period";
+    const updates = {};
 
-const updates = {};
+    if (
+        game.state === "period"
+    ) {
 
-if (state === "period") {
+        switch (game.period) {
 
-    if (period === 1) {
+            case 1:
 
-        updates["game/state"] =
-            "break";
+                updates["game/state"] =
+                    "break";
 
-        updates["game/clockRemaining"] =
-            30;
+                updates["game/clockRemaining"] =
+                    30;
+
+                break;
+
+            case 2:
+
+                updates["game/state"] =
+                    "halftime";
+
+                updates["game/clockRemaining"] =
+                    60;
+
+                break;
+
+            case 3:
+
+                updates["game/state"] =
+                    "break";
+
+                updates["game/clockRemaining"] =
+                    30;
+
+                break;
+
+            case 4:
+
+                updates["game/state"] =
+                    "summary";
+
+                updates["game/clockRemaining"] =
+                    0;
+
+                break;
+
+        }
 
     }
-    else if (period === 2) {
+    else if (
+        game.state === "break"
+    ) {
 
         updates["game/state"] =
-            "halftime";
+            "period";
+
+        updates["game/period"] =
+            game.period + 1;
 
         updates["game/clockRemaining"] =
-            60;
+            data.settings.periodLength;
 
     }
-    else if (period === 3) {
+    else if (
+        game.state === "halftime"
+    ) {
 
         updates["game/state"] =
-            "break";
+            "period";
+
+        updates["game/period"] =
+            3;
 
         updates["game/clockRemaining"] =
-            30;
-
-    }
-    else if (period === 4) {
-
-        updates["game/state"] =
-            "summary";
-
-        updates["game/clockRemaining"] =
-            0;
+            data.settings.periodLength;
 
     }
 
-}
-else if (state === "break") {
+    updates["game/clockRunning"] =
+        false;
 
-    updates["game/state"] =
-        "period";
-
-updates["game/period"] =
-    Math.min(
-        4,
-        period + 1
+    await update(
+        courtRef(court),
+        updates
     );
 
-    updates["game/clockRemaining"] =
-        600;
-
-}
-else if (state === "halftime") {
-
-    updates["game/state"] =
-        "period";
-
-    updates["game/period"] =
-        3;
-
-    updates["game/clockRemaining"] =
-        600;
-
 }
 
-updates["game/clockRunning"] =
-    false;
+export async function reverseGameState(
+    court
+) {
 
-await update(
-    courtRef(court),
-    updates
-);
+    const snapshot =
+        await get(courtRef(court));
+
+    const data =
+        snapshot.val() ||
+        defaultGameState;
+
+    const game =
+        data.game;
+
+    const updates = {};
+
+    if (
+        game.state === "break"
+    ) {
+
+        updates["game/state"] =
+            "period";
+
+        updates["game/clockRemaining"] =
+            data.settings.periodLength;
+
+    }
+    else if (
+        game.state === "halftime"
+    ) {
+
+        updates["game/state"] =
+            "period";
+
+        updates["game/period"] =
+            2;
+
+        updates["game/clockRemaining"] =
+            data.settings.periodLength;
+
+    }
+    else if (
+        game.state === "period"
+    ) {
+
+        switch (game.period) {
+
+            case 2:
+
+                updates["game/state"] =
+                    "break";
+
+                updates["game/period"] =
+                    1;
+
+                updates["game/clockRemaining"] =
+                    30;
+
+                break;
+
+            case 3:
+
+                updates["game/state"] =
+                    "halftime";
+
+                updates["game/period"] =
+                    2;
+
+                updates["game/clockRemaining"] =
+                    60;
+
+                break;
+
+            case 4:
+
+                updates["game/state"] =
+                    "break";
+
+                updates["game/period"] =
+                    3;
+
+                updates["game/clockRemaining"] =
+                    30;
+
+                break;
+
+        }
+
+    }
+
+    updates["game/clockRunning"] =
+        false;
+
+    await update(
+        courtRef(court),
+        updates
+    );
 
 }
+
 
 export async function changePeriod(
 court,
@@ -479,19 +650,23 @@ await update(
 );
 
 }
-export async function saveTeamNames(
-court,
-homeName,
-awayName
-) {
+// ========================================
+// TEAM FUNCTIONS
+// ========================================
 
-await update(
-    courtRef(court),
-    {
-        "teams/homeName": homeName,
-        "teams/awayName": awayName
-    }
-);
+export async function saveTeamNames(
+    court,
+    homeName,
+    awayName
+){
+
+    await update(
+        courtRef(court),
+        {
+            "teams/homeName": homeName,
+            "teams/awayName": awayName
+        }
+    );
 
 }
 console.log("game.js loaded");

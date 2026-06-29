@@ -1,18 +1,19 @@
 import {
-initialiseCourt,
-watchCourt,
-addScore,
-addFoul,
-addTimeout,
-setPossession,
-setGameState,
-advanceGameState,
-startBreak,
-saveTeamNames,
-setClockRunning,
-adjustClock,
-changePeriod
-} from './game.js';
+    initialiseCourt,
+    watchCourt,
+    addScore,
+    addFoul,
+    addTimeout,
+    setPossession,
+    saveTeamNames,
+    setClockRunning,
+    adjustClock
+} from "./game.js";
+
+import {
+    nextStage,
+    previousStage
+} from "./competition.js";
 
 /*****************************************************************
 
@@ -72,43 +73,20 @@ document.getElementById('awayTeamTitle')
 .textContent =
 data.teams.awayName;
 
-if (
-    data.game.state === 'break'
-) {
+// ========================================
+// CURRENT STAGE
+// ========================================
+
+const stage = data.stages[
+    data.game.currentStage || 0
+];
+
+if (stage) {
 
     document.getElementById(
         'periodDisplay'
     ).textContent =
-        'BREAK';
-
-}
-else if (
-    data.game.state === 'halftime'
-) {
-
-    document.getElementById(
-        'periodDisplay'
-    ).textContent =
-        'HALFTIME';
-
-}
-else if (
-    data.game.state === 'summary'
-) {
-
-    document.getElementById(
-        'periodDisplay'
-    ).textContent =
-        'FULL TIME';
-
-}
-else {
-
-    document.getElementById(
-        'periodDisplay'
-    ).textContent =
-        'PERIOD ' +
-        data.game.period;
+        stage.name;
 
 }
 
@@ -383,53 +361,26 @@ court,
 -60
 )
 );
-
 /*****************************************************************
 
 * PERIOD CONTROLS
-  *****************************************************************/
+
+*****************************************************************/
 
 document.getElementById('periodUp')
 .addEventListener(
-'click',
-() => changePeriod(
-court,
-1
-)
+    'click',
+    () => nextStage(
+        court
+    )
 );
 
 document.getElementById('periodDown')
 .addEventListener(
-'click',
-() => changePeriod(
-court,
--1
-)
-);
-
-/*****************************************************************
-
-* POSSESSION
-  *****************************************************************/
-
-document.getElementById('togglePossession')
-.addEventListener(
-'click',
-async () => {
-
-    const currentArrow =
-        document.getElementById(
-            'togglePossession'
-        ).textContent;
-
-    await setPossession(
-        court,
-        currentArrow === '◄'
-            ? 'away'
-            : 'home'
-    );
-
-}
+    'click',
+    () => previousStage(
+        court
+    )
 );
 
 /*****************************************************************

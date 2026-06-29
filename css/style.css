@@ -243,7 +243,24 @@ h2{
         -2px  2px 0 #000,
          2px  2px 0 #000;
 }
+.displayPossession{
 
+    font-size:clamp(3rem,5vw,5rem);
+
+    font-weight:bold;
+
+    color:#d40000;
+
+    text-align:center;
+
+    margin-top:10px;
+
+    text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;
+}
 .displayStat{
 
     font-size:clamp(1.2rem,2vw,2rem);
@@ -256,6 +273,10 @@ h2{
         -1px  1px 0 #000,
          1px  1px 0 #000;
 }
+
+/* ===========================
+   MEDIA SCREEN
+=========================== */
 
 .ticker{
 
@@ -270,4 +291,59 @@ h2{
     font-size:2vh;
 
     border-top:2px solid white;
+}
+
+#previewWindow{
+
+    width:100%;
+
+    aspect-ratio:16/9;
+
+    background:#222;
+
+    border-radius:12px;
+
+    border:3px solid #333;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:white;
+
+    font-size:1.2rem;
+
+}
+#previewWindow{
+
+    width:100%;
+
+    aspect-ratio:16/9;
+
+    background:#202020;
+
+    border-radius:12px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:1.2rem;
+
+}
+
+.templateButton{
+
+    width:100%;
+
+    margin-bottom:10px;
+
+    text-align:left;
+
 }

@@ -1,9 +1,16 @@
 import { db, ref, onValue } from './firebase.js';
 
+// ========================================
+// COURT SELECTION
+// ========================================
+
 const court =
     new URLSearchParams(window.location.search)
         .get('court') || 'court1';
+
 let latestData = null;
+
+
 // ========================================
 // HELPER FUNCTIONS
 // ========================================
@@ -20,6 +27,25 @@ function setText(
 
         element.textContent =
             value;
+
+    }
+
+}
+
+function setVisible(
+    id,
+    visible
+){
+
+    const element =
+        document.getElementById(id);
+
+    if(element){
+
+        element.style.display =
+            visible
+                ? ''
+                : 'none';
 
     }
 
@@ -42,85 +68,137 @@ function setColour(
 
 }
 
+function setImage(
+    id,
+    image
+){
+
+    const element =
+        document.getElementById(id);
+
+    if(element){
+
+        element.src =
+            image;
+
+    }
+
+}
+
+
+// ========================================
+// FIREBASE LISTENER
+// ========================================
+
 onValue(
+
     ref(db, 'courts/' + court),
+
     (snapshot) => {
 
         const data =
             snapshot.val() || {};
+
+        latestData =
+            data;
 
         const game =
             data.game || {};
 
         const teams =
             data.teams || {};
-            latestData = data;
 
-        // ------------------------
-        // TEAM NAMES
-        // ------------------------
+        const presentation =
+            data.presentation || {};
 
-       setText(
-    'homeTeamName',
-    teams.homeName || 'LIGHT'
+            console.log(
+    teams.homeLogo
 );
+
+console.log(
+    teams.awayLogo
+);
+
+        // ========================================
+        // TEAM INFORMATION
+        // ========================================
 
         setText(
-    'awayTeamName',
-    teams.awayName || 'DARK'
-);
+            'homeTeamName',
+            teams.homeName || 'LIGHT'
+        );
+
+        setText(
+            'awayTeamName',
+            teams.awayName || 'DARK'
+        );
+        
+
+        setImage(
+            'homeLogo',
+            teams.homeLogo ||
+            'assets/logos/default-light.png'
+        );
+
+        setImage(
+            'awayLogo',
+            teams.awayLogo ||
+            'assets/logos/default-dark.png'
+        );
 
 
-
-        // ------------------------
+        // ========================================
         // SCORES
-        // ------------------------
-
-       setText(
-    'homeScore',
-    game.homeScore || 0
-);
+        // ========================================
 
         setText(
-    'awayScore',
-    game.awayScore || 0
-);
+            'homeScore',
+            game.homeScore || 0
+        );
 
-        // ------------------------
+        setText(
+            'awayScore',
+            game.awayScore || 0
+        );
+
+
+        // ========================================
         // FOULS
-        // ------------------------
+        // ========================================
 
         setText(
-    'homeFouls',
-    'Fouls: ' +
-    (game.homeFouls || 0)
-);
+            'homeFouls',
+            'Fouls: ' +
+            (game.homeFouls || 0)
+        );
 
-      setText(
-    'awayFouls',
-    'Fouls: ' +
-    (game.awayFouls || 0)
-);
+        setText(
+            'awayFouls',
+            'Fouls: ' +
+            (game.awayFouls || 0)
+        );
 
-        // ------------------------
+
+        // ========================================
         // TIMEOUTS
-        // ------------------------
+        // ========================================
 
-        document.getElementById(
-            'homeTimeouts'
-        ).textContent =
+        setText(
+            'homeTimeouts',
             'Timeouts: ' +
-            (game.homeTimeouts || 0);
+            (game.homeTimeouts || 0)
+        );
 
-        document.getElementById(
-            'awayTimeouts'
-        ).textContent =
+        setText(
+            'awayTimeouts',
             'Timeouts: ' +
-            (game.awayTimeouts || 0);
+            (game.awayTimeouts || 0)
+        );
 
-        // ------------------------
+
+        // ========================================
         // CLOCK
-        // ------------------------
+        // ========================================
 
         const remaining =
             game.clockRemaining || 0;
@@ -133,60 +211,52 @@ onValue(
         const seconds =
             remaining % 60;
 
-        document.getElementById(
-            'gameClock'
-        ).textContent =
+        setText(
+            'gameClock',
             minutes +
             ':' +
             String(seconds)
-                .padStart(2, '0');
+                .padStart(2, '0')
+        );
 
-        // ------------------------
-        // GAME STATE
-        // ------------------------
 
-        if (
-            game.state === 'break'
-        ) {
+       // ========================================
+// CURRENT STAGE
+// ========================================
 
-            document.getElementById(
-                'periodDisplay'
-            ).textContent =
-                'BREAK';
+const stage = data.stages[
+    game.currentStage || 0
+];
 
-        }
-        else if (
-            game.state === 'halftime'
-        ) {
+if (stage) {
 
-            document.getElementById(
-                'periodDisplay'
-            ).textContent =
-                'HALFTIME';
+    setText(
+        "periodDisplay",
+        stage.name
+    );
 
-        }
-        else if (
-            game.state === 'summary'
-        ) {
+}
 
-            document.getElementById(
-                'periodDisplay'
-            ).textContent =
-                'FULL TIME';
 
-        }
-        else {
+        // ========================================
+        // POSSESSION
+        // ========================================
 
-            document.getElementById(
-                'periodDisplay'
-            ).textContent =
-                'PERIOD ' +
-                (game.period || 1);
+        setText(
 
-        }
+            'possessionArrow',
+
+            game.possession === 'away'
+                ? '➡'
+                : '⬅'
+
+        );
 
     }
+
 );
+
+
 // ========================================
 // LIVE CLOCK DISPLAY
 // ========================================
