@@ -181,7 +181,7 @@ if (
         false
     );
 
-    await advanceGameState(
+    await nextStage(
         court
     );
 

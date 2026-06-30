@@ -1,3 +1,81 @@
+/*****************************************************************
+
+FALCONS LIVE
+Module: game.js
+
+==================================================
+PURPOSE
+==================================================
+
+Maintains the live state of a basketball game.
+
+This module is responsible for reading and writing
+game information to Firebase.
+
+==================================================
+RESPONSIBILITIES
+==================================================
+
+✓ Court initialisation
+✓ Live score
+✓ Fouls
+✓ Timeouts
+✓ Clock
+✓ Possession
+✓ Team information
+✓ Default game state
+
+==================================================
+NOT RESPONSIBLE FOR
+==================================================
+
+✗ Match progression
+    (competition.js)
+
+✗ Match setup & presets
+    (matchsetup.js)
+
+✗ Display presentation
+    (display.js)
+
+✗ Media presentation
+    (mediaoperator.js)
+
+==================================================
+USED BY
+==================================================
+
+• oneoperator.js
+• display.js
+• matchsetup.js
+
+==================================================
+REVISION HISTORY
+==================================================
+
+v0.1
+- Initial game engine
+
+v0.2
+- Added live scoring
+
+v0.3
+- Added clock, fouls and timeout support
+
+v0.4
+- Added stage-based game model
+
+v0.5
+- Removed competition progression
+  (moved to competition.js)
+
+*****************************************************************/
+
+
+/*****************************************************************
+IMPORTS
+*****************************************************************/
+
 import {
 db,
 ref,
@@ -127,6 +205,10 @@ presentation: {
 
 };
 
+/*****************************************************************
+COURT FUNCTIONS
+*****************************************************************/
+
 export function courtRef(court) {
 
 return ref(
@@ -170,6 +252,10 @@ onValue(
 );
 
 }
+
+/*****************************************************************
+SCORING FUNCTIONS
+*****************************************************************/
 
 export async function addScore(
 court,
@@ -215,6 +301,10 @@ await update(
 
 }
 
+/*****************************************************************
+FOUL FUNCTIONS
+*****************************************************************/
+
 export async function addFoul(
 court,
 team,
@@ -259,6 +349,10 @@ await update(
 
 }
 
+/*****************************************************************
+TIMEOUT FUNCTIONS
+*****************************************************************/
+
 export async function addTimeout(
 court,
 team,
@@ -300,6 +394,11 @@ await update(
     courtRef(court),
     updates
 );
+
+/*****************************************************************
+CLOCK FUNCTIONS
+*****************************************************************/
+
 }
 export async function setClockRunning(
 court,
@@ -378,6 +477,10 @@ await update(
 );
 }
 
+/*****************************************************************
+POSSESSION FUNCTIONS
+*****************************************************************/
+
 export async function setPossession(
 court,
 team
@@ -402,131 +505,6 @@ await update(
         "game/state": state
     }
 );
-
-}
-
-export async function startBreak(
-court
-) {
-
-await update(
-    courtRef(court),
-    {
-        "game/state": "break",
-        "game/clockRemaining": 30,
-        "game/clockRunning": false
-    }
-);
-
-}
-
-export async function advanceGameState(
-    court
-) {
-
-    const snapshot =
-        await get(courtRef(court));
-
-    const data =
-        snapshot.val() ||
-        defaultGameState;
-
-    const game =
-        data.game;
-
-    const updates = {};
-
-    if (
-        game.state === "period"
-    ) {
-
-        switch (game.period) {
-
-            case 1:
-
-                updates["game/state"] =
-                    "break";
-
-                updates["game/clockRemaining"] =
-                    30;
-
-                break;
-
-            case 2:
-
-                updates["game/state"] =
-                    "halftime";
-
-                updates["game/clockRemaining"] =
-                    60;
-
-                break;
-
-            case 3:
-
-                updates["game/state"] =
-                    "break";
-
-                updates["game/clockRemaining"] =
-                    30;
-
-                break;
-
-            case 4:
-
-                updates["game/state"] =
-                    "summary";
-
-                updates["game/clockRemaining"] =
-                    0;
-
-                break;
-
-        }
-
-    }
-    else if (
-        game.state === "break"
-    ) {
-
-        updates["game/state"] =
-            "period";
-
-        updates["game/period"] =
-            game.period + 1;
-
-        updates["game/clockRemaining"] =
-            data.settings.periodLength;
-
-    }
-    else if (
-        game.state === "halftime"
-    ) {
-
-        updates["game/state"] =
-            "period";
-
-        updates["game/period"] =
-            3;
-
-        updates["game/clockRemaining"] =
-            data.settings.periodLength;
-
-    }
-
-    updates["game/clockRunning"] =
-        false;
-
-    await update(
-        courtRef(court),
-        updates
-    );
-
-}
-
-export async function reverseGameState(
-    court
-) {
 
     const snapshot =
         await get(courtRef(court));
@@ -622,14 +600,6 @@ export async function reverseGameState(
         updates
     );
 
-}
-
-
-export async function changePeriod(
-court,
-amount
-) {
-
 const snapshot =
     await get(courtRef(court));
 
@@ -650,9 +620,9 @@ await update(
 );
 
 }
-// ========================================
-// TEAM FUNCTIONS
-// ========================================
+/*****************************************************************
+TEAM FUNCTIONS
+*****************************************************************/
 
 export async function saveTeamNames(
     court,
@@ -669,4 +639,3 @@ export async function saveTeamNames(
     );
 
 }
-console.log("game.js loaded");
