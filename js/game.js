@@ -85,6 +85,10 @@ get,
 onValue
 } from './firebase.js';
 
+import {
+    currentPreset
+} from "./matchsetup.js";
+
 export const defaultGameState = {
 
 game: {
@@ -125,65 +129,7 @@ teams: {
 
 },
 
-settings: {
-
-    periodLength: 600,
-    periodCount: 4,
-    overtimeLength: 300,
-    mode: "quarters"
-
-},
-stages: [
-
-    {
-        type: "period",
-        name: "PERIOD 1",
-        duration: 600
-    },
-
-    {
-        type: "break",
-        name: "BREAK",
-        duration: 30
-    },
-
-    {
-        type: "period",
-        name: "PERIOD 2",
-        duration: 600
-    },
-
-    {
-        type: "halftime",
-        name: "HALFTIME",
-        duration: 600
-    },
-
-    {
-        type: "period",
-        name: "PERIOD 3",
-        duration: 600
-    },
-
-    {
-        type: "break",
-        name: "BREAK",
-        duration: 30
-    },
-
-    {
-        type: "period",
-        name: "PERIOD 4",
-        duration: 600
-    },
-
-    {
-        type: "summary",
-        name: "FULL TIME",
-        duration: 0
-    }
-
-],
+stages: [...currentPreset.stages],
 
 presentation: {
 
@@ -193,9 +139,15 @@ presentation: {
 
     override: false,
 
-    youtubeUrl: "",
+    media: {
 
-    cameraUrl: "",
+        break1: "",
+
+        halftime: "",
+
+        break2: ""
+
+    },
 
     backgroundImage: "",
 
@@ -493,133 +445,6 @@ await update(
 );
 
 }
-
-export async function setGameState(
-court,
-state
-) {
-
-await update(
-    courtRef(court),
-    {
-        "game/state": state
-    }
-);
-
-    const snapshot =
-        await get(courtRef(court));
-
-    const data =
-        snapshot.val() ||
-        defaultGameState;
-
-    const game =
-        data.game;
-
-    const updates = {};
-
-    if (
-        game.state === "break"
-    ) {
-
-        updates["game/state"] =
-            "period";
-
-        updates["game/clockRemaining"] =
-            data.settings.periodLength;
-
-    }
-    else if (
-        game.state === "halftime"
-    ) {
-
-        updates["game/state"] =
-            "period";
-
-        updates["game/period"] =
-            2;
-
-        updates["game/clockRemaining"] =
-            data.settings.periodLength;
-
-    }
-    else if (
-        game.state === "period"
-    ) {
-
-        switch (game.period) {
-
-            case 2:
-
-                updates["game/state"] =
-                    "break";
-
-                updates["game/period"] =
-                    1;
-
-                updates["game/clockRemaining"] =
-                    30;
-
-                break;
-
-            case 3:
-
-                updates["game/state"] =
-                    "halftime";
-
-                updates["game/period"] =
-                    2;
-
-                updates["game/clockRemaining"] =
-                    60;
-
-                break;
-
-            case 4:
-
-                updates["game/state"] =
-                    "break";
-
-                updates["game/period"] =
-                    3;
-
-                updates["game/clockRemaining"] =
-                    30;
-
-                break;
-
-        }
-
-    }
-
-    updates["game/clockRunning"] =
-        false;
-
-    await update(
-        courtRef(court),
-        updates
-    );
-
-const snapshot =
-    await get(courtRef(court));
-
-const data =
-    snapshot.val() ||
-    defaultGameState;
-
-await update(
-    courtRef(court),
-    {
-        "game/period":
-            Math.max(
-                1,
-                (data.game.period || 1)
-                + amount
-            )
-    }
-);
-
-}
 /*****************************************************************
 TEAM FUNCTIONS
 *****************************************************************/
@@ -635,6 +460,25 @@ export async function saveTeamNames(
         {
             "teams/homeName": homeName,
             "teams/awayName": awayName
+        }
+    );
+
+}
+/*****************************************************************
+MEDIA FUNCTIONS
+*****************************************************************/
+
+export async function saveMediaUrl(
+    court,
+    mediaKey,
+    url
+) {
+
+    await update(
+        courtRef(court),
+        {
+            [`presentation/media/${mediaKey}`]:
+                url
         }
     );
 

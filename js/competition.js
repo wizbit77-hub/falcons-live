@@ -6,6 +6,9 @@ import {
 import {
     courtRef
 } from "./game.js";
+import {
+    currentPreset
+} from "./matchsetup.js";
 
 // ========================================
 // CURRENT STAGE
@@ -56,6 +59,29 @@ export async function getAllStages(
 // ENTER STAGE
 // ========================================
 
+function getStageDuration(stage){
+
+    switch(stage.type){
+
+        case "period":
+            return currentPreset.timings.period;
+
+        case "break":
+            return currentPreset.timings.break;
+
+        case "halftime":
+            return currentPreset.timings.halftime;
+
+        case "summary":
+            return 0;
+
+        default:
+            return 0;
+
+    }
+
+}
+
 export async function enterStage(
     court,
     stageIndex
@@ -90,8 +116,8 @@ export async function enterStage(
             "game/clockRunning":
                 false,
 
-            "game/clockRemaining":
-                stage.duration
+           "game/clockRemaining":
+    getStageDuration(stage)
 
         }
     );

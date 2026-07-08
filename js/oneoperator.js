@@ -14,6 +14,9 @@ import {
     nextStage,
     previousStage
 } from "./competition.js";
+import {
+    currentPreset
+} from "./matchsetup.js";
 
 /*****************************************************************
 
@@ -83,10 +86,43 @@ const stage = data.stages[
 
 if (stage) {
 
+    let stageText = "";
+
+    switch (stage.type) {
+
+        case "period":
+
+            stageText =
+                currentPreset.competition.stageLabel +
+                " " +
+                stage.number;
+
+            break;
+
+        case "break":
+
+            stageText = "BREAK";
+
+            break;
+
+        case "halftime":
+
+            stageText = "HALFTIME";
+
+            break;
+
+        case "summary":
+
+            stageText = "FULL TIME";
+
+            break;
+
+    }
+
     document.getElementById(
-        'periodDisplay'
+        "periodDisplay"
     ).textContent =
-        stage.name;
+        stageText;
 
 }
 
@@ -140,6 +176,28 @@ data.game.clockRunning
 : 'START';
 
 });
+document.getElementById(
+    "togglePossession"
+).addEventListener(
+    "click",
+    async () => {
+
+        if (!latestData) {
+            return;
+        }
+
+        const newTeam =
+            latestData.game.possession === "home"
+                ? "away"
+                : "home";
+
+        await setPossession(
+            court,
+            newTeam
+        );
+
+    }
+);
 
 /*****************************************************************
 * LIVE CLOCK REDRAW
