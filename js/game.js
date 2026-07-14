@@ -137,17 +137,55 @@ presentation: {
 
     currentView: "scoreboard",
 
+    currentMedia: "",
+
     override: false,
 
-    media: {
+   media: {
 
-        break1: "",
+    break1: {
 
-        halftime: "",
-
-        break2: ""
+        url: "",
+        layout: "banner"
 
     },
+
+    halftime: {
+
+        url: "",
+        layout: "fullscreen"
+
+    },
+
+    break2: {
+
+        url: "",
+        layout: "banner"
+
+    },
+
+    fulltime: {
+
+        url: "",
+        layout: "fullscreen"
+
+    },
+
+    timeout: {
+
+        url: "",
+        layout: "banner"
+
+    },
+
+    substitution: {
+
+        url: "",
+        layout: "overlay"
+
+    }
+
+},
 
     backgroundImage: "",
 
@@ -468,18 +506,61 @@ export async function saveTeamNames(
 MEDIA FUNCTIONS
 *****************************************************************/
 
+function convertMediaUrl(url) {
+    console.log("convertMediaUrl called:", url);
+
+    if (!url) {
+        return "";
+    }
+
+    // YouTube watch URL
+    if (url.includes("youtube.com/watch?v=")) {
+
+        const id =
+            new URL(url)
+                .searchParams
+                .get("v");
+
+        if (id) {
+
+            return `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0`;
+
+        }
+
+    }
+
+    // Short YouTube URL
+    if (url.includes("youtu.be/")) {
+
+        const id =
+            url.split("youtu.be/")[1]
+               .split("?")[0];
+
+        return `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0`;
+
+    }
+
+    // Already an embed or another media source
+    return url;
+
+}
+
 export async function saveMediaUrl(
     court,
     mediaKey,
-    url
+    url,
+    layout
 ) {
 
     await update(
-        courtRef(court),
-        {
-            [`presentation/media/${mediaKey}`]:
-                url
-        }
-    );
+    courtRef(court),
+    {
+        [`presentation/media/${mediaKey}/url`]:
+            convertMediaUrl(url),
+
+        [`presentation/media/${mediaKey}/layout`]:
+            layout
+    }
+);
 
 }

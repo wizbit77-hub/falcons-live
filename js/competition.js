@@ -107,20 +107,25 @@ export async function enterStage(
     }
 
     await update(
-        courtRef(court),
-        {
+    courtRef(court),
+    {
 
-            "game/currentStage":
-                stageIndex,
+        "game/currentStage":
+            stageIndex,
 
-            "game/clockRunning":
-                false,
+        "game/clockRunning":
+            false,
 
-           "game/clockRemaining":
-    getStageDuration(stage)
+        "game/clockRemaining":
+            getStageDuration(stage),
 
-        }
-    );
+        "presentation/currentMedia":
+            stage.media?.enabled
+                ? stage.media.key
+                : ""
+
+    }
+);
 
 }
 

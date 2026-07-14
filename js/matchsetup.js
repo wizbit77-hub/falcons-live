@@ -2,12 +2,7 @@
 FALCONS LIVE
 Module: matchsetup.js
 
-PURPOSE
-
 Provides the current competition configuration.
-
-Version 1 contains a single hard-coded preset.
-Future versions will load presets from the Match Setup page.
 
 *****************************************************************/
 
@@ -37,63 +32,121 @@ export const currentPreset = {
 
         {
             type: "period",
-            number: 1
-        },
+            number: 1,
 
-    {
-    type: "break",
-
-    media: {
-
-        enabled: true,
-
-        key: "break1",
-
-        label: "Break 1"
-
-    }
-
-},
-
-        {
-            type: "period",
-            number: 2
+            media: {
+                enabled: false
+            }
         },
 
         {
-            type: "halftime"
+            type: "break",
+
+            media: {
+    enabled: true,
+    trigger: "automatic",
+    key: "break1",
+    label: "Break 1",
+    layout: "banner"
+}
         },
 
         {
             type: "period",
-            number: 3
+            number: 2,
+
+            media: {
+                enabled: false
+            }
         },
 
-      {
-    type: "break",
+        {
+            type: "halftime",
 
-    media: {
-
-        enabled: true,
-
-        key: "break2",
-
-        label: "Break 2"
-
-    }
-
-},
+            media: {
+                enabled: true,
+                trigger: "automatic",
+                key: "halftime",
+                label: "Half Time",
+                layout: "fullscreen"
+            }
+        },
 
         {
             type: "period",
-            number: 4
+            number: 3,
+
+            media: {
+                enabled: false
+            }
         },
 
         {
-            type: "summary"
+            type: "break",
+
+            media: {
+                enabled: true,
+                trigger: "automatic",
+                key: "break2",
+                label: "Break 2",
+                layout: "banner"
+            }
+        },
+
+        {
+            type: "period",
+            number: 4,
+
+            media: {
+                enabled: false
+            }
+        },
+
+        {
+            type: "summary",
+
+            media: {
+                enabled: true,
+                trigger: "automatic",
+                key: "fulltime",
+                label: "Full Time",
+                layout: "fullscreen"
+            }
         }
 
     ],
+
+    events: {
+
+        timeout: {
+
+            enabled: true,
+
+            media: {
+                enabled: true,
+                trigger: "manual",
+                key: "timeout",
+                label: "Timeout",
+                layout: "banner"
+            }
+
+        },
+
+        substitution: {
+
+            enabled: true,
+
+            media: {
+                enabled: true,
+                trigger: "manual",
+                key: "substitution",
+                label: "Substitution",
+                layout: "overlay"
+            }
+
+        }
+
+    },
 
     team: {
 

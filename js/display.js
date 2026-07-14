@@ -10,7 +10,16 @@ const court =
 
 let latestData = null;
 
+let currentMedia = "";
 
+const displayPage =
+    document.querySelector(".displayPage");
+
+const mediaContainer =
+    document.getElementById("mediaContainer");
+
+const mediaFrame =
+    document.getElementById("mediaFrame");
 // ========================================
 // HELPER FUNCTIONS
 // ========================================
@@ -111,6 +120,62 @@ onValue(
         const presentation =
             data.presentation || {};
 
+            const media =
+    presentation.media?.[
+        presentation.currentMedia
+    ];
+
+if (
+    presentation.currentMedia &&
+    media &&
+    media.url &&
+    (
+        presentation.currentMedia !== currentMedia ||
+        mediaFrame.src !== media.url
+    )
+) {
+
+    currentMedia =
+        presentation.currentMedia;
+
+    mediaContainer.style.display =
+    "block";
+
+mediaContainer.style.zIndex = "1";
+
+    mediaFrame.src =
+        media.url;
+
+   const layout =
+    media.layout || "banner";
+
+displayPage.className =
+    "displayPage display-" + layout;
+
+console.log(
+    "Layout:",
+    layout
+);
+
+}
+else if (
+    !presentation.currentMedia &&
+    currentMedia
+) {
+
+    currentMedia = "";
+
+    mediaFrame.src = "";
+
+    mediaContainer.style.display =
+    "none";
+
+mediaContainer.style.zIndex = "-1";
+
+    displayPage.className =
+        "displayPage display-standard";
+
+}
             console.log(
     teams.homeLogo
 );
