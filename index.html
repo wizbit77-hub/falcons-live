@@ -1,17 +1,74 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8">
-<title>Falcons Live</title>
-<link rel="stylesheet" href="css/style.css">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Falcons Scoring System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
+
 <body>
-<h1>Falcons Live</h1>
-<h2>Select Court</h2>
-<a class="btn" href="operator.html?court=court1">Court 1 Operator</a>
-<a class="btn" href="operator.html?court=court2">Court 2 Operator</a>
-<a class="btn" href="display.html?court=court1">Court 1 Display</a>
-<a class="btn" href="display.html?court=court2">Court 2 Display</a>
+
+<div class="landingPage">
+
+    <h1>Falcons Scoring System</h1>
+
+    <p class="welcomeText">
+        Welcome to the Falcons Scoring System
+    </p>
+
+    <p class="welcomeText">
+        What would you like to do today?
+    </p>
+
+    <div class="landingButtons">
+
+        <button onclick="location.href='simplescoreboard.html'">
+            🏀 Operate a Simple Scoreboard
+        </button>
+
+        <button onclick="comingSoon('Scoreboard with Statistics')">
+            📊 Operate a Scoreboard with Statistics
+        </button>
+
+        <button onclick="location.href='mediaoperator.html'">
+            🎬 Operate Media
+        </button>
+
+        <button onclick="comingSoon('Connect a Display')">
+    🖥 Connect a Display
+</button>
+
+        <button onclick="comingSoon('Administrator')">
+            ⚙ Administrator
+        </button>
+
+    </div>
+
+    <div class="version">
+        Falcons Scoring System v0.1
+    </div>
+
+</div>
+
+<script>
+
+function comingSoon(feature){
+
+    alert(feature + " is coming soon.");
+
+}
+
+</script>
+
 </body>
+
 </html>

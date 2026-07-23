@@ -168,3 +168,32 @@ container.appendChild(saved);
 
     }
 );
+
+/*****************************************************************
+* Live View Window
+*****************************************************************/
+const previewWindow = document.getElementById("previewWindow");
+const displayMonitor = document.getElementById("displayMonitor");
+
+function resizeDisplayPreview() {
+
+    const designWidth = 1920;
+    const designHeight = 1080;
+
+    const scaleX = previewWindow.clientWidth / designWidth;
+    const scaleY = previewWindow.clientHeight / designHeight;
+
+    const scale = Math.min(scaleX, scaleY);
+
+    displayMonitor.style.transform = `scale(${scale})`;
+
+    displayMonitor.style.width = `${designWidth}px`;
+    displayMonitor.style.height = `${designHeight}px`;
+
+}
+
+window.addEventListener("resize", resizeDisplayPreview);
+
+displayMonitor.addEventListener("load", resizeDisplayPreview);
+
+resizeDisplayPreview();
