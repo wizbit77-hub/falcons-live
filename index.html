@@ -12,44 +12,101 @@
     <title>Falcons Scoring System</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
 
 </head>
 
 <body>
 
-<div class="landingPage">
+<div class="landingCard">
 
-    <h1>Falcons Scoring System</h1>
+    <div class="branding">
 
-    <p class="welcomeText">
-        Welcome to the Falcons Scoring System
-    </p>
+        <div class="logo">
+            🏀
+        </div>
 
-    <p class="welcomeText">
-        What would you like to do today?
-    </p>
+        <h1>Falcons Scoring System</h1>
 
-    <div class="landingButtons">
+        <h2>Professional Scoreboard &amp; Media Control System</h2>
 
-        <button onclick="location.href='simplescoreboard.html'">
-            🏀 Operate a Simple Scoreboard
-        </button>
+        <p>Welcome to the Falcons Scoring System.</p>
 
-        <button onclick="comingSoon('Scoreboard with Statistics')">
-            📊 Operate a Scoreboard with Statistics
-        </button>
+        <p class="question">What would you like to do today?</p>
 
-        <button onclick="location.href='mediaoperator.html'">
-            🎬 Operate Media
-        </button>
+    </div>
 
-        <button onclick="comingSoon('Connect a Display')">
-    🖥 Connect a Display
-</button>
+    <div class="tileGrid">
 
-        <button onclick="comingSoon('Administrator')">
-            ⚙ Administrator
-        </button>
+        <a class="tile" href="simplescoreboard.html">
+
+            <div class="tileIcon">🏀</div>
+
+            <div class="tileTitle">
+                Simple<br>Scoreboard
+            </div>
+
+            <div class="tileDescription">
+                Operate a standard basketball scoreboard.
+            </div>
+
+        </a>
+
+        <a class="tile" href="#">
+
+            <div class="tileIcon">📊</div>
+
+            <div class="tileTitle">
+                Statistics<br>Scoreboard
+            </div>
+
+            <div class="tileDescription">
+                Operate a scoreboard with player and team statistics.
+            </div>
+
+        </a>
+
+        <a class="tile" href="mediaoperator.html">
+
+            <div class="tileIcon">🎬</div>
+
+            <div class="tileTitle">
+                Media<br>Operator
+            </div>
+
+            <div class="tileDescription">
+                Control adverts, timeout videos and halftime media.
+            </div>
+
+        </a>
+
+        <a class="tile" href="#">
+
+            <div class="tileIcon">🖥</div>
+
+            <div class="tileTitle">
+                Connect<br>Display
+            </div>
+
+            <div class="tileDescription">
+                Open the public display or obtain its web address.
+            </div>
+
+        </a>
+
+        <a class="tile adminTile" href="#">
+
+            <div class="tileIcon">⚙</div>
+
+            <div class="tileTitle">
+                System<br>Administration
+            </div>
+
+            <div class="tileDescription">
+                Configure the Falcons Scoring System.
+            </div>
+
+        </a>
 
     </div>
 
@@ -58,16 +115,6 @@
     </div>
 
 </div>
-
-<script>
-
-function comingSoon(feature){
-
-    alert(feature + " is coming soon.");
-
-}
-
-</script>
 
 </body>
 
